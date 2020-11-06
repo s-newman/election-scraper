@@ -102,7 +102,7 @@ fn main() {
 
         let margin = gap as f64 / remaining as f64;
         if margin.abs() < 0.3 {
-            println!("{}: {:.01}%", state.state_name, margin * 100.0);
+            println!("{}: {:.02}%", state.state_name, margin * 100.0);
         }
     }
 }
