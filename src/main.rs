@@ -82,5 +82,27 @@ fn main() {
         }
     };
 
-    println!("{:#?}", results.data.races[0]);
+    for state in results.data.races {
+        let remaining: i32 = state.tot_exp_vote as i32 - state.votes as i32;
+        if remaining < 0 {
+            continue;
+        }
+        let biden = state
+            .candidates
+            .iter()
+            .filter(|c| c.candidate_key == "bidenj")
+            .collect::<Vec<&Candidate>>()[0];
+        let trump = state
+            .candidates
+            .iter()
+            .filter(|c| c.candidate_key == "trumpd")
+            .collect::<Vec<&Candidate>>()[0];
+
+        let gap: i32 = trump.votes as i32 - biden.votes as i32;
+
+        let margin = gap as f64 / remaining as f64;
+        if margin.abs() < 0.3 {
+            println!("{}: {:.01}%", state.state_name, margin * 100.0);
+        }
+    }
 }
